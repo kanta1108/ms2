@@ -34,6 +34,9 @@ public class SearchServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// CSRF対策
+        request.setAttribute("_token", request.getSession().getId());
+
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/search.jsp");
 		rd.forward(request, response);
 	}
