@@ -2,16 +2,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="../layout/app.jsp">
  <c:param name="content">
-  <c:forEach var="message" items="${messages}">
+ <c:choose>
+  <c:when test="${rtitle} != null">
+  <h2>メッセージは存在しません</h2>
+  </c:when>
+  <c:otherwise>
+  <c:forEach var="rtitle" items="${rtitle}">
     <li>
-      <a href="${pageContext.request.contextPath}/show?id=${message.id}">
-        <c:out value="${message.id}"/>
-      </a>
-      :<c:out value="${message.title}"></c:out> &gt;<c:out value="${message.content}"/>
+        タイトル：<c:out value="${rtitle}"/>
     </li>
   </c:forEach>
+  </c:otherwise>
+</c:choose>
 
-  <p>タイトル:${rtitle}</p>
+
 
   <p><a href="${pageContext.request.contextPath}/index">一覧に戻る</a></p>
 
