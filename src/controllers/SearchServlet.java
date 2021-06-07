@@ -1,9 +1,10 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -55,19 +56,21 @@ public class SearchServlet extends HttpServlet {
 
 			if(title.equals("")&&content.equals("")){
 
-			}else if(content.equals("")){
-				List<Message> messages = (List<Message>) em.find(Message.class, title);
+			}else if(title != null){
+				Collection<Message>rtitle = getTitle(title,em);
+				request.setAttribute("rtitle",rtitle);
 				em.close();
-				request.setAttribute("messages", messages);
-			}else if(title.equals("")){
-				List<Message> messages = (List<Message>) em.find(Message.class, content);
-				em.close();
-				request.setAttribute("messages", messages);
 			}
 		}
 
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/searchResult.jsp");
 		rd.forward(request, response);
+	}
+
+	public static Collection<Message> getTitle(String title,EntityManager em){
+		Query query = em.createQuery("SELECT m FROM Message AS m WHERE m.title = :title");
+		query.setParameter("title", title);
+		return query.getResultList();
 	}
 
 }
