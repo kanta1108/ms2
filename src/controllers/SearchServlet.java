@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Message;
 import utils.DBUtil;
 
 /**
@@ -56,7 +57,7 @@ public class SearchServlet extends HttpServlet {
 			if(title.equals("")&&content.equals("")){
 
 			}else if(title != null){
-				List<String> rtitle = getTitle(title,em);
+				List<Message> rtitle = getTitle(title,em);
 				request.setAttribute("rtitle",rtitle);
 				em.close();
 			}
@@ -66,7 +67,7 @@ public class SearchServlet extends HttpServlet {
 		rd.forward(request, response);
 	}
 
-	public static List<String> getTitle(String title,EntityManager em){
+	public static List<Message> getTitle(String title,EntityManager em){
 		Query query = em.createQuery("SELECT m FROM Message AS m WHERE m.title = :title");
 		query.setParameter("title", title);
 		return query.getResultList();

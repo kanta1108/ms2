@@ -7,9 +7,9 @@
   <h2>メッセージは存在しません</h2>
   </c:when>
   <c:otherwise>
-  <c:forEach var="rtitle" items="${rtitle}">
+  <c:forEach var="Message" items="${rtitle}">
     <li>
-        タイトル：<c:out value="${rtitle}"/>
+        タイトル：<c:out value="${Message.title}"/>
     </li>
   </c:forEach>
   </c:otherwise>
